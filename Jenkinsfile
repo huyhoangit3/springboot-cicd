@@ -69,8 +69,8 @@ pipeline {
             sed -i -E "s/hoangit3\\/springboot-cicd:[0-9]+/hoangit3\\/springboot-cicd:${BUILD_NUMBER}/g" springboot-cicd-deploy.yaml
             git add .
             git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-            git push https: //${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} master
-              '''
+            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} master
+            '''
             }
           }
         }
