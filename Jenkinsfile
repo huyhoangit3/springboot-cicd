@@ -21,7 +21,7 @@ pipeline {
     }
     stage('Static Code Analysis') {
       environment {
-        SONAR_URL = "http://54.254.41.233:9000"
+        SONAR_URL = "http://13.250.33.202:9000"
       }
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
@@ -51,7 +51,7 @@ pipeline {
     stage('Checkout') {
       steps {
         sh 'echo Checkout VCS manifest'
-        git branch: 'main', url: 'https://github.com/huyhoangit3/springboot-cicd-manifests.git'
+        git branch: 'master', url: 'https://github.com/huyhoangit3/springboot-cicd-manifests.git'
       }
     }
     stage('Update Deployment File') {
@@ -65,9 +65,8 @@ pipeline {
                   git config user.email "luongbahoang@devops.vn"
                   git config user.name "hoangdevops"
                   BUILD_NUMBER=${BUILD_NUMBER}
-                  git checkout master
-                  sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" manifests/springboot-cicd-deploy.yaml
-                  git add manifests/*
+                  sed -i -E "s/hoangit3\/springboot-cicd:[0-9]+/hoangit3\/springboot-cicd:${BUILD_NUMBER}/g" springboot-cicd-deploy.yaml
+                  git add .
                   git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                   git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} master
               '''
