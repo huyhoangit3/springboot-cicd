@@ -45,29 +45,34 @@ pipeline {
         }
       }
     }
-    stage('Checkout manifest repo') {
-      steps {
-        sh 'echo Checkout VCS manifest'
-        git branch: 'master', url: 'https://github.com/huyhoangit3/springboot-cicd-manifests.git'
+    dir('manifest-repo') {
+      stage('Checkout manifest repo') {
+        steps {
+          sh 'echo Checkout VCS manifest'
+          git branch: 'master', url: 'https://github.com/huyhoangit3/springboot-cicd-manifests.git'
+        }
       }
-    }
-    stage('Update Deployment File') {
-      environment {
+      stage('Update Deployment File') {
+        environment {
           GIT_REPO_NAME = "springboot-cicd-manifests"
           GIT_USER_NAME = "huyhoangit3"
-      }
-      steps {
+        }
+        steps {
           withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
-              sh '''
-                  git config user.email "luongbahoang@devops.vn"
-                  git config user.name "hoangdevops"
-                  BUILD_NUMBER=${BUILD_NUMBER}
-                  sed -i -E "s/hoangit3\\/springboot-cicd:[0-9]+/hoangit3\\/springboot-cicd:${BUILD_NUMBER}/g" springboot-cicd-deploy.yaml
-                  git add .
-                  git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                  git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} master
+            sh '''
+            git config user.email "luongbahoang@devops.vn"
+            git config user.name "hoangdevops"
+            BUILD_NUMBER = $ {
+              BUILD_NUMBER
+            }
+            sed - i - E "s/hoangit3\\/springboot-cicd:[0-9]+/hoangit3\\/springboot-cicd:${BUILD_NUMBER}/g"
+            springboot - cicd - deploy.yaml
+            git add.
+            git commit - m "Update deployment image to version ${BUILD_NUMBER}"
+            git push https: //${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} master
               '''
           }
+        }
       }
     }
   }
