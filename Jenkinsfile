@@ -58,7 +58,7 @@ pipeline {
         environment {
           GIT_REPO_NAME = "springboot-cicd-manifests"
           GIT_USER_NAME = "huyhoangit3"
-          BUILD_NUMBER = ${BUILD_NUMBER}
+          BUILD_NUMBER = "${BUILD_NUMBER}"
         }
         steps {
           dir('manifest-repo') {
