@@ -6,7 +6,7 @@ pipeline {
   //     }
 
   stages {
-    stage('Checkout') {
+    stage('Checkout source repo') {
       steps {
         sh 'echo Checkout VCS'
         //git branch: 'main', url: 'https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git'
@@ -45,10 +45,7 @@ pipeline {
         }
       }
     }
-
-  }
-  stages {
-    stage('Checkout') {
+    stage('Checkout manifest repo') {
       steps {
         sh 'echo Checkout VCS manifest'
         git branch: 'master', url: 'https://github.com/huyhoangit3/springboot-cicd-manifests.git'
@@ -72,6 +69,6 @@ pipeline {
               '''
           }
       }
-        }
+    }
   }
 }
