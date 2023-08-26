@@ -26,6 +26,6 @@ public class UserController {
 
     @GetMapping("/health")
     public String health(){
-        return "OK 1";
+        return "OK 2";
     }
 }
