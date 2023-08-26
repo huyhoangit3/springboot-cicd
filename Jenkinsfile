@@ -60,12 +60,12 @@ pipeline {
           GIT_USER_NAME = "huyhoangit3"
         }
         steps {
+          BUILD_NUMBER = ${BUILD_NUMBER}
           dir('manifest-repo') {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
             sh '''
             git config user.email "luongbahoang@devops.vn"
             git config user.name "hoangdevops"
-            BUILD_NUMBER = ${BUILD_NUMBER}
             sed - i - E "s/hoangit3\\/springboot-cicd:[0-9]+/hoangit3\\/springboot-cicd:${BUILD_NUMBER}/g" springboot-cicd-deploy.yaml
             git add .
             git commit - m "Update deployment image to version ${BUILD_NUMBER}"
